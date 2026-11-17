@@ -120,11 +120,57 @@
     .mbar .btn{flex:1;text-align:center;padding:12px}
     body{padding-bottom:74px}
   }
+
+  /* canlı versiya */
+  body{background:#F6F3EC}
+  .top{background:var(--brick);color:#FFF6EE;max-width:none!important;padding:16px max(24px,calc((100% - 1072px)/2))}
+  .top .mark,.top .call{color:#FFF6EE}
+  .top nav a{color:#FFD9CF}
+  .hero{background:var(--brick);background-image:none;border:0;color:#FFF6EE;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-60px;top:-40px;bottom:-40px;width:150px;transform:rotate(8deg);
+    background:repeating-linear-gradient(-45deg,#FFF6EE 0 26px,var(--brick) 26px 52px,#1E5866 52px 78px,var(--brick) 78px 104px);
+    background-size:100% 147px;animation:pole 6s linear infinite;opacity:.95}
+  @keyframes pole{to{background-position:0 147px}}
+  @media (prefers-reduced-motion:reduce){.hero::after{animation:none}}
+  .hero .wrap{position:relative;z-index:1;padding-top:80px;padding-bottom:90px}
+  .sign h1,.sign .sub,.sign p{background:none}
+  .sign h1{color:#FFF6EE;font-size:clamp(90px,17vw,210px)}
+  .sign .sub{color:#FFD9CF}
+  .sign p{color:#FFF6EE;opacity:.9}
+  .hero .btn.main{background:#FFF6EE;color:var(--ink);border-color:#FFF6EE}
+  .hero .btn.main:hover{background:var(--ink);color:#FFF6EE;border-color:var(--ink)}
+  .hero .btn.line{background:transparent;color:#FFF6EE;border-color:#FFF6EE}
+  .hero .btn.line:hover{background:#FFF6EE;color:var(--brick)}
+  .board{box-shadow:none;transform:rotate(-1.5deg);border:3px solid #FFF6EE}
+  .strip{background:var(--ink);color:#FFF6EE;overflow:hidden;white-space:nowrap;padding:16px 0;font-weight:800;font-stretch:80%;font-size:26px}
+  .strip span{display:inline-block;animation:run 28s linear infinite;padding-right:40px}
+  .strip i{font-style:normal;color:#E8B04B;padding:0 18px}
+  @keyframes run{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.strip span{animation:none}}
+  .item .pr{color:var(--brick)}
+  .item b{font-size:22px}
+  .item:hover .pr{transform:scale(1.08)}
+  .item .pr{transition:transform .15s}
+  .person h3{color:#E8B04B}
+  .shot{background:linear-gradient(150deg,#1E5866,#123842);color:#CFE0DD}
+  .shot:nth-child(2),.shot:nth-child(5){background:linear-gradient(150deg,#C2463A,#8E2B21);color:#FFE3DA}
+  .shot:nth-child(3){background:linear-gradient(150deg,#E8B04B,#C98E2A);color:#3B2A0C}
+  blockquote{border-left:5px solid #E8B04B;padding-left:18px}
+  .faq summary::after{color:var(--brick);font-weight:800}
+  .book{background:#1E5866;color:#FFF6EE;border:0}
+  .book h2{color:#FFF6EE}
+  .book .lead-text,.book .contacts{color:#D8E6E3}
+  .book .contacts a{color:#E8B04B}
+  .book form{background:#FFF6EE;color:var(--ink);padding:28px;border-radius:6px;transform:rotate(.6deg)}
+  .book .btn.main{background:var(--brick);border-color:var(--brick)}
+  .book .btn.main:hover{background:var(--ink);border-color:var(--ink)}
+  .mbar .btn.main{background:var(--brick);border-color:var(--brick)}
+  @media(max-width:860px){.hero::after{width:70px;right:-26px}.board,.book form{transform:none}}
 </style>
 </head>
 <body>
 
-<div class="top" style="max-width:1120px;margin:0 auto">
+<div class="top">
   <a class="mark" href="./">Ustad</a>
   <nav aria-label="Bölmələr"><a href="#qiymetler">Qiymətlər</a><a href="#ustalar">Ustalar</a><a href="#suallar">Suallar</a><a href="#novbe">Ünvan</a></nav>
   <a class="call" href="tel:+994500000000">050 000 00 00</a>
@@ -148,6 +194,8 @@
     </aside>
   </div>
 </header>
+
+<div class="strip" aria-hidden="true"><span>Saç kəsimi 15 ₼ <i>✂</i> Saç + saqqal 22 ₼ <i>✂</i> Saqqal 10 ₼ <i>✂</i> Ülgüclə qırxım 12 ₼ <i>✂</i> Uşaq kəsimi 10 ₼ <i>✂</i> Bəy hazırlığı 50 ₼ <i>✂</i> Saç kəsimi 15 ₼ <i>✂</i> Saç + saqqal 22 ₼ <i>✂</i> Saqqal 10 ₼ <i>✂</i> Ülgüclə qırxım 12 ₼ <i>✂</i> Uşaq kəsimi 10 ₼ <i>✂</i> Bəy hazırlığı 50 ₼ <i>✂</i> </span></div>
 
 <section id="qiymetler"><div class="wrap">
   <h2>Qiymətlər</h2>
