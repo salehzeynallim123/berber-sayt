@@ -318,6 +318,8 @@
     .add({targets:'#cut',width:['0%','100%'],duration:700,easing:'easeInOutQuad'},'-=300')
     .add({targets:'.sign .sub, .sign p, .sign .btns',translateY:[24,0],opacity:[0,1],duration:700,delay:anime.stagger(110)},'-=500')
     .add({targets:'.board',translateX:[80,0],rotate:[6,-1.5],opacity:[0,1],duration:900},'-=700');
+  // ehtiyat: animasiya ilişsə 4 saniyədən sonra hər şey görünsün
+  setTimeout(function(){document.querySelectorAll('#title .ch,.sign .sub,.sign p,.sign .btns,.board').forEach(function(el){el.style.opacity=1;el.style.transform='none'});},4000);
   // 2) Aşağı sürüşdürdükcə bölmələr ardıcıl çıxır, qiymətlər sayılır
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){
