@@ -166,6 +166,17 @@
   .book .btn.main:hover{background:var(--ink);border-color:var(--ink)}
   .mbar .btn.main{background:var(--brick);border-color:var(--brick)}
   @media(max-width:860px){.hero::after{width:70px;right:-26px}.board,.book form{transform:none}}
+
+  /* animasiya */
+  .sign h1 .ch{display:inline-block;will-change:transform}
+  .cut{position:absolute;left:0;bottom:-6px;height:4px;width:0;background:#E8B04B;border-radius:2px}
+  .sign h1{position:relative}
+  .rv{opacity:0}
+  .no-anim .rv{opacity:1}
+  .scissors{position:fixed;left:0;top:0;width:34px;height:34px;pointer-events:none;z-index:50;opacity:0;font-size:28px;line-height:34px;text-align:center}
+  @media(hover:none){.scissors{display:none}}
+  .item{transition:background .2s}
+  .item:hover{background:rgba(168,54,42,.06)}
 </style>
 </head>
 <body>
@@ -179,7 +190,7 @@
 <header class="hero">
   <div class="wrap">
     <div class="sign">
-      <h1>Ustad</h1><br>
+      <h1 id="title">Ustad<span class="cut" id="cut"></span></h1><br>
       <div class="sub">Nəsimidə məhəllə bərbərxanası</div>
       <p>2019-dan bu küncdəyik. Saç kəsirik, saqqal düzəldirik, ülgüclə qırxırıq. Növbə götürsəniz gözləmədən oturursunuz.</p>
       <div class="btns"><a class="btn main" href="#novbe">Növbə götür</a><a class="btn line" href="#qiymetler">Qiymətlər</a></div>
@@ -200,12 +211,12 @@
 <section id="qiymetler"><div class="wrap">
   <h2>Qiymətlər</h2>
   <div class="menu">
-    <div class="item"><span><b>Saç kəsimi</b><small>yuma və üslub daxil</small></span><span class="lead"></span><span class="pr">15 ₼</span></div>
-    <div class="item"><span><b>Saç + saqqal</b><small>ən çox bunu götürürlər</small></span><span class="lead"></span><span class="pr">22 ₼</span></div>
-    <div class="item"><span><b>Saqqal</b><small>forma və ülgüclə kənarlar</small></span><span class="lead"></span><span class="pr">10 ₼</span></div>
-    <div class="item"><span><b>Ülgüclə qırxım</b><small>isti dəsmal ilə</small></span><span class="lead"></span><span class="pr">12 ₼</span></div>
-    <div class="item"><span><b>Uşaq kəsimi</b><small>12 yaşa qədər</small></span><span class="lead"></span><span class="pr">10 ₼</span></div>
-    <div class="item"><span><b>Bəy hazırlığı</b><small>toy günü, əvvəlcədən yazılın</small></span><span class="lead"></span><span class="pr">50 ₼</span></div>
+    <div class="item rv"><span><b>Saç kəsimi</b><small>yuma və üslub daxil</small></span><span class="lead"></span><span class="pr">15 ₼</span></div>
+    <div class="item rv"><span><b>Saç + saqqal</b><small>ən çox bunu götürürlər</small></span><span class="lead"></span><span class="pr">22 ₼</span></div>
+    <div class="item rv"><span><b>Saqqal</b><small>forma və ülgüclə kənarlar</small></span><span class="lead"></span><span class="pr">10 ₼</span></div>
+    <div class="item rv"><span><b>Ülgüclə qırxım</b><small>isti dəsmal ilə</small></span><span class="lead"></span><span class="pr">12 ₼</span></div>
+    <div class="item rv"><span><b>Uşaq kəsimi</b><small>12 yaşa qədər</small></span><span class="lead"></span><span class="pr">10 ₼</span></div>
+    <div class="item rv"><span><b>Bəy hazırlığı</b><small>toy günü, əvvəlcədən yazılın</small></span><span class="lead"></span><span class="pr">50 ₼</span></div>
   </div>
   <p class="note">Nağd və kartla ödəniş qəbul edirik.</p>
 </div></section>
@@ -213,21 +224,21 @@
 <section class="team" id="ustalar"><div class="wrap">
   <h2>Ustalar</h2>
   <div class="people">
-    <div class="person"><h3>Rauf</h3><p>Salonun sahibi. Klassik kəsimlər, köhnə müştərilər əsasən ona gəlir.</p><span class="yrs">12 il</span></div>
-    <div class="person"><h3>Elvin</h3><p>Fade və qısa idman kəsimləri. Gənclər daha çox ona yazılır.</p><span class="yrs">7 il</span></div>
-    <div class="person"><h3>Tural</h3><p>Saqqal işi. Formanı üzə görə seçir, tələsmir.</p><span class="yrs">6 il</span></div>
-    <div class="person"><h3>Nicat</h3><p>Uşaqlarla səbirlidir. Şənbələr onun növbəsi tez dolur.</p><span class="yrs">5 il</span></div>
+    <div class="person rv"><h3>Rauf</h3><p>Salonun sahibi. Klassik kəsimlər, köhnə müştərilər əsasən ona gəlir.</p><span class="yrs">12 il</span></div>
+    <div class="person rv"><h3>Elvin</h3><p>Fade və qısa idman kəsimləri. Gənclər daha çox ona yazılır.</p><span class="yrs">7 il</span></div>
+    <div class="person rv"><h3>Tural</h3><p>Saqqal işi. Formanı üzə görə seçir, tələsmir.</p><span class="yrs">6 il</span></div>
+    <div class="person rv"><h3>Nicat</h3><p>Uşaqlarla səbirlidir. Şənbələr onun növbəsi tez dolur.</p><span class="yrs">5 il</span></div>
   </div>
 </div></section>
 
 <section id="isler"><div class="wrap">
   <h2>Son işlər</h2>
   <div class="shots">
-    <div class="shot">Şəkil: fade + teksturalı üst</div>
-    <div class="shot">Şəkil: saqqal forması</div>
-    <div class="shot">Şəkil: klassik kəsim</div>
-    <div class="shot">Şəkil: salonun içi</div>
-    <div class="shot">Şəkil: uşaq kəsimi</div>
+    <div class="shot rv">Şəkil: fade + teksturalı üst</div>
+    <div class="shot rv">Şəkil: saqqal forması</div>
+    <div class="shot rv">Şəkil: klassik kəsim</div>
+    <div class="shot rv">Şəkil: salonun içi</div>
+    <div class="shot rv">Şəkil: uşaq kəsimi</div>
   </div>
   <p class="shots-note">Bu yerlərə salonun öz telefonla çəkilmiş şəkilləri qoyulacaq.</p>
 </div></section>
@@ -235,20 +246,20 @@
 <section id="reyler" style="padding-top:0"><div class="wrap">
   <h2>Müştərilər nə deyir</h2>
   <div class="quotes">
-    <blockquote>Buraya müştərinin Google və ya Instagram-dakı real rəyi gələcək.<footer>Müştərinin adı, Google</footer></blockquote>
-    <blockquote>Buraya müştərinin Google və ya Instagram-dakı real rəyi gələcək.<footer>Müştərinin adı, Instagram</footer></blockquote>
-    <blockquote>Buraya müştərinin Google və ya Instagram-dakı real rəyi gələcək.<footer>Müştərinin adı, Google</footer></blockquote>
+    <blockquote class="rv">Buraya müştərinin Google və ya Instagram-dakı real rəyi gələcək.<footer>Müştərinin adı, Google</footer></blockquote>
+    <blockquote class="rv">Buraya müştərinin Google və ya Instagram-dakı real rəyi gələcək.<footer>Müştərinin adı, Instagram</footer></blockquote>
+    <blockquote class="rv">Buraya müştərinin Google və ya Instagram-dakı real rəyi gələcək.<footer>Müştərinin adı, Google</footer></blockquote>
   </div>
 </div></section>
 
 <section id="suallar" style="padding-top:0"><div class="wrap">
   <h2>Soruşulanlar</h2>
   <div class="faq">
-    <details><summary>Növbəsiz gəlmək olar?</summary><p>Olar. Boş usta varsa elə oturursunuz, yoxdursa 20–30 dəqiqə gözləmək lazım ola bilər. Axşamlar və şənbə günü növbə götürmək daha yaxşıdır.</p></details>
-    <details><summary>Kəsim nə qədər çəkir?</summary><p>Saç kəsimi 30–40 dəqiqə, saç və saqqal birlikdə təxminən bir saat.</p></details>
-    <details><summary>Növbəni dəyişmək olar?</summary><p>Bəli. Ən azı 2 saat əvvəl zəng edin və ya WhatsApp-a yazın.</p></details>
-    <details><summary>Kartla ödəmək olar?</summary><p>Olar, həm nağd, həm kart qəbul edirik.</p></details>
-    <details><summary>Maşını harada saxlayım?</summary><p>Binanın qarşısında küçə boyu yer olur. Axşam saatlarında bir az dolu olur.</p></details>
+    <details class="rv"><summary>Növbəsiz gəlmək olar?</summary><p>Olar. Boş usta varsa elə oturursunuz, yoxdursa 20–30 dəqiqə gözləmək lazım ola bilər. Axşamlar və şənbə günü növbə götürmək daha yaxşıdır.</p></details>
+    <details class="rv"><summary>Kəsim nə qədər çəkir?</summary><p>Saç kəsimi 30–40 dəqiqə, saç və saqqal birlikdə təxminən bir saat.</p></details>
+    <details class="rv"><summary>Növbəni dəyişmək olar?</summary><p>Bəli. Ən azı 2 saat əvvəl zəng edin və ya WhatsApp-a yazın.</p></details>
+    <details class="rv"><summary>Kartla ödəmək olar?</summary><p>Olar, həm nağd, həm kart qəbul edirik.</p></details>
+    <details class="rv"><summary>Maşını harada saxlayım?</summary><p>Binanın qarşısında küçə boyu yer olur. Axşam saatlarında bir az dolu olur.</p></details>
   </div>
 </div></section>
 
@@ -291,6 +302,40 @@
       t.textContent=m<o[0]?('İndi bağlıyıq, bu gün '+f(o[0])+'-da açılırıq'):('İndi bağlıyıq, sabah '+(d==='Sat'?'11:00':'10:00')+'-da açılırıq');
     }
   }catch(e){}
+})();
+</script>
+<div class="scissors" id="sc" aria-hidden="true">✂</div>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce||typeof anime==='undefined'){document.body.classList.add('no-anim');return;}
+  // 1) Başlıq hərf-hərf düşür, sonra altından qayçı "kəsir"
+  var t=document.getElementById('title'),cut=document.getElementById('cut');
+  t.innerHTML=t.textContent.replace(/\S/g,'<span class="ch">$&</span>');t.appendChild(cut);
+  anime.timeline({easing:'easeOutExpo'})
+    .add({targets:'#title .ch',translateY:[-140,0],rotate:[-20,0],opacity:[0,1],duration:900,delay:anime.stagger(70)})
+    .add({targets:'#cut',width:['0%','100%'],duration:700,easing:'easeInOutQuad'},'-=300')
+    .add({targets:'.sign .sub, .sign p, .sign .btns',translateY:[24,0],opacity:[0,1],duration:700,delay:anime.stagger(110)},'-=500')
+    .add({targets:'.board',translateX:[80,0],rotate:[6,-1.5],opacity:[0,1],duration:900},'-=700');
+  // 2) Aşağı sürüşdürdükcə bölmələr ardıcıl çıxır, qiymətlər sayılır
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;io.unobserve(e.target);
+      var group=e.target.parentElement.querySelectorAll('.rv');
+      var i=Array.prototype.indexOf.call(group,e.target);
+      anime({targets:e.target,opacity:[0,1],translateY:[40,0],scale:[.96,1],duration:800,delay:(i%4)*90,easing:'easeOutCubic'});
+      var pr=e.target.querySelector('.pr');
+      if(pr){var n=parseInt(pr.textContent),o={v:0};anime({targets:o,v:n,round:1,duration:900,delay:(i%4)*90+200,easing:'easeOutCubic',update:function(){pr.textContent=o.v+' ₼'}});}
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  // 3) Kompüterdə kursoru qayçı izləyir
+  var sc=document.getElementById('sc'),x=0,y=0;
+  document.addEventListener('mousemove',function(e){x=e.clientX+14;y=e.clientY+14;sc.style.opacity=.9;});
+  (function loop(){var cx=parseFloat(sc.dataset.x||0),cy=parseFloat(sc.dataset.y||0);cx+=(x-cx)*.18;cy+=(y-cy)*.18;sc.dataset.x=cx;sc.dataset.y=cy;sc.style.transform='translate('+cx+'px,'+cy+'px) rotate('+((x-cx)*1.5)+'deg)';requestAnimationFrame(loop)})();
+  // 4) Düymələrə basanda qayçı "çırt" edir
+  document.querySelectorAll('.btn').forEach(function(b){b.addEventListener('mouseenter',function(){anime({targets:b,scale:[1,1.05,1],duration:400,easing:'easeOutQuad'})})});
 })();
 </script>
 </body>
