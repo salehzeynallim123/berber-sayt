@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ustad Barber — Bakı</title>
 <meta name="description" content="Ustad Barber — Bakıda kişi saç kəsimi, saqqal dizaynı və üz qulluğu. Onlayn növbə götür.">
+<link rel="canonical" href="https://salehzeynallim123.github.io/berber-sayt/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ustad Barber — Bakıda kişi bərbəri">
+<meta property="og:description" content="Saç kəsimi, saqqal dizaynı, üz qulluğu. Onlayn növbə al.">
+<meta property="og:image" content="https://salehzeynallim123.github.io/berber-sayt/og.png">
+<meta property="og:url" content="https://salehzeynallim123.github.io/berber-sayt/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23c9a45c'/><text x='50' y='70' font-size='60' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23111'>U</text></svg>">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BarberShop","name":"Ustad Barber","url":"https://salehzeynallim123.github.io/berber-sayt/","telephone":"+994500000000","priceRange":"10-50 AZN",
+"address":{"@type":"PostalAddress","addressLocality":"Bakı","addressCountry":"AZ","streetAddress":"Nəsimi r."},
+"openingHours":"Mo-Su 10:00-21:00"}
+</script>
+<!-- Google Analytics: G-XXXXXXX yerinə müştərinin öz ID-sini yaz -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXX');</script> -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -86,13 +102,34 @@
     .stats{grid-template-columns:1fr}.stats div+div{border-left:none;border-top:1px solid var(--line)}
     section{padding:70px 0}
   }
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .gallery figure{background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .gallery .ph{height:220px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;text-align:center;padding:20px;
+    background:repeating-linear-gradient(45deg,#1a1816 0 12px,#1e1c19 12px 24px)}
+  .gallery figcaption{padding:12px 16px;font-size:14px;color:var(--muted)}
+  .faq{max-width:760px;margin:0 auto}
+  .faq details{border-bottom:1px solid var(--line);padding:18px 0}
+  .faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between}
+  .faq summary::after{content:"+";color:var(--gold);font-size:22px;line-height:1}
+  .faq details[open] summary::after{content:"−"}
+  .faq p{color:var(--muted);margin-top:10px}
+  .map{width:100%;height:260px;border:1px solid var(--line);border-radius:6px;margin-top:22px;filter:grayscale(1) invert(.9) contrast(.9)}
+  .promise{display:inline-block;background:rgba(201,164,92,.12);color:var(--gold);padding:6px 12px;border-radius:4px;font-size:13px;margin-bottom:18px}
+  .mbar{display:none}
+  footer a{color:var(--gold)}
+  @media(max-width:760px){
+    .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bg);border-top:1px solid var(--line);padding:10px;gap:10px}
+    .mbar a{flex:1;text-align:center}
+    .wa{display:none}
+    body{padding-bottom:70px}
+  }
 </style>
 </head>
 <body>
 
 <nav><div class="wrap">
   <a href="#" class="logo">USTAD<span>.</span>BARBER</a>
-  <div class="links"><a href="#xidmetler">Xidmətlər</a><a href="#ustalar">Ustalar</a><a href="#reyler">Rəylər</a><a href="#elaqe">Əlaqə</a></div>
+  <div class="links"><a href="#xidmetler">Xidmətlər</a><a href="#ustalar">Ustalar</a><a href="#isler">İşlərimiz</a><a href="#reyler">Rəylər</a><a href="#suallar">Suallar</a><a href="#elaqe">Əlaqə</a></div>
   <a href="#elaqe" class="btn">Növbə al</a>
 </div></nav>
 
@@ -132,6 +169,16 @@
   </div>
 </div></section>
 
+<section id="isler"><div class="wrap">
+  <div class="head"><small>Portfolio</small><h2>İşlərimiz</h2></div>
+  <div class="gallery">
+    <figure><div class="ph">Real kəsim şəkli buraya</div><figcaption>Skin fade + teksturalı üst</figcaption></figure>
+    <figure><div class="ph">Real kəsim şəkli buraya</div><figcaption>Klassik saqqal forması</figcaption></figure>
+    <figure><div class="ph">Real kəsim şəkli buraya</div><figcaption>Bəy paketi — toy günü</figcaption></figure>
+    <figure><div class="ph">Real kəsim şəkli buraya</div><figcaption>Uşaq kəsimi</figcaption></figure>
+  </div>
+</div></section>
+
 <section id="reyler"><div class="wrap">
   <div class="head"><small>Müştərilər deyir</small><h2>Rəylər</h2></div>
   <div class="reviews">
@@ -141,25 +188,39 @@
   </div>
 </div></section>
 
+<section id="suallar"><div class="wrap">
+  <div class="head"><small>FAQ</small><h2>Tez-tez verilən suallar</h2></div>
+  <div class="faq">
+    <details><summary>Növbəsiz gəlmək olar?</summary><p>Olar, amma boş usta olmaya bilər. Onlayn növbə götürsəniz, gözləmədən qəbul olunursunuz.</p></details>
+    <details><summary>Ödənişi necə edə bilərəm?</summary><p>Nağd və bank kartı ilə ödəniş qəbul edirik.</p></details>
+    <details><summary>Bir kəsim nə qədər vaxt aparır?</summary><p>Saç kəsimi təxminən 30–40 dəqiqə, kəsim + saqqal paketi 50–60 dəqiqə çəkir.</p></details>
+    <details><summary>Növbəni ləğv etmək və ya dəyişmək olar?</summary><p>Bəli, ən azı 2 saat əvvəl zəng edin və ya WhatsApp-a yazın.</p></details>
+    <details><summary>Parkinq var?</summary><p>Salonun yaxınlığında küçə parkinqi mövcuddur.</p></details>
+  </div>
+</div></section>
+
 <section id="elaqe" style="background:#13110f"><div class="wrap book">
   <div class="info">
     <div class="head" style="text-align:left;margin-bottom:24px"><small>Əlaqə</small><h2>Növbə al</h2></div>
-    <p>Formu doldur, 15 dəqiqə ərzində zəng edib təsdiqləyək. Ya da birbaşa WhatsApp-a yaz.</p>
+    <div class="promise">⏱ İş saatlarında 2 saat ərzində cavab veririk</div>
+    <p>Formu doldur, zəng edib növbəni təsdiqləyək. Ya da birbaşa WhatsApp-a yaz.</p>
     <div class="row"><b>Ünvan</b><span>Nəsimi r., Bakı (nümunə)</span></div>
     <div class="row"><b>Telefon</b><span>+994 50 000 00 00</span></div>
     <div class="row"><b>İş saatı</b><span>Hər gün 10:00 – 21:00</span></div>
+    <iframe class="map" title="Xəritə: Ustad Barber" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=49.82%2C40.36%2C49.88%2C40.40&amp;layer=mapnik"></iframe>
   </div>
-  <form onsubmit="event.preventDefault();this.querySelector('.ok').style.display='block';this.reset()">
+  <form onsubmit="event.preventDefault();location.href='tesekkurler.html'">
     <input required placeholder="Adınız">
     <input required type="tel" placeholder="Telefon nömrəniz">
     <select required><option value="">Xidmət seçin</option><option>Saç kəsimi</option><option>Saqqal dizaynı</option><option>Kəsim + saqqal</option><option>Bəy paketi</option></select>
     <input required type="date">
     <button class="btn">Növbəni göndər</button>
-    <div class="ok">Təşəkkürlər! Tezliklə sizə zəng edəcəyik.</div>
-  </form>
+      </form>
 </div></section>
 
-<footer>© 2026 Ustad Barber · Nümunə sayt</footer>
+<footer>© 2026 Ustad Barber · <a href="mexfilik.html">Məxfilik siyasəti</a> · Nümunə sayt</footer>
+
+<div class="mbar"><a href="tel:+994500000000" class="btn ghost">Zəng et</a><a href="#elaqe" class="btn">Növbə al</a></div>
 
 <a class="wa" href="#elaqe" aria-label="WhatsApp">
   <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>

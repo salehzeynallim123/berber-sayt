@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://salehzeynallim123.github.io/berber-sayt/sitemap.xml
