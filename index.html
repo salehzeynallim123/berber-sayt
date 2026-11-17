@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ustad Barber — Bakı</title>
+<meta name="description" content="Ustad Barber — Bakıda kişi saç kəsimi, saqqal dizaynı və üz qulluğu. Onlayn növbə götür.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0f0e0d;--card:#1a1816;--gold:#c9a45c;--text:#efe9df;--muted:#a59d90;--line:#2c2925}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+  /* nav */
+  nav{position:sticky;top:0;z-index:10;background:rgba(15,14,13,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:Oswald;font-size:22px;font-weight:700;letter-spacing:.08em}
+  .logo span{color:var(--gold)}
+  .links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .links a:hover{color:var(--gold)}
+  .btn{display:inline-block;background:var(--gold);color:#111;font-weight:600;padding:12px 24px;border-radius:4px;transition:.2s}
+  .btn:hover{background:#e0bb72}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+  /* hero */
+  .hero{min-height:88vh;display:flex;align-items:center;position:relative;overflow:hidden;
+    background:radial-gradient(ellipse at 75% 40%,rgba(201,164,92,.18),transparent 55%),
+    repeating-linear-gradient(135deg,transparent 0 40px,rgba(255,255,255,.015) 40px 41px)}
+  .hero .tag{color:var(--gold);font-size:13px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:18px}
+  .hero h1{font-size:clamp(44px,8vw,92px);line-height:1;margin-bottom:22px}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p{max-width:520px;color:var(--muted);font-size:18px;margin-bottom:34px}
+  .hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+  .pole{position:absolute;right:8%;top:50%;transform:translateY(-50%);width:70px;height:340px;border-radius:35px;border:3px solid var(--gold);overflow:hidden}
+  .pole::before{content:"";position:absolute;inset:-100% 0 0;background:repeating-linear-gradient(-45deg,#b33 0 22px,#efe9df 22px 44px,#2a4d8f 44px 66px,#efe9df 66px 88px);animation:spin 3s linear infinite}
+  @keyframes spin{to{transform:translateY(50%)}}
+  /* sections */
+  section{padding:96px 0}
+  .head{text-align:center;margin-bottom:56px}
+  .head small{color:var(--gold);letter-spacing:.25em;font-size:12px;text-transform:uppercase}
+  .head h2{font-size:clamp(32px,5vw,48px);margin-top:8px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stats div{padding:34px;text-align:center}
+  .stats div+div{border-left:1px solid var(--line)}
+  .stats b{display:block;font-family:Oswald;font-size:40px;color:var(--gold)}
+  .stats span{color:var(--muted);font-size:14px}
+  /* prices */
+  .prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .price{background:var(--card);border:1px solid var(--line);padding:26px 28px;border-radius:6px;display:flex;justify-content:space-between;gap:16px;transition:.2s}
+  .price:hover{border-color:var(--gold);transform:translateY(-3px)}
+  .price h3{font-size:19px;margin-bottom:4px}
+  .price p{color:var(--muted);font-size:14px}
+  .price b{font-family:Oswald;font-size:26px;color:var(--gold);white-space:nowrap}
+  /* team */
+  .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+  .member{background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden;text-align:center}
+  .avatar{height:200px;display:flex;align-items:center;justify-content:center;font-family:Oswald;font-size:64px;color:var(--gold);
+    background:linear-gradient(160deg,#2a2622,#141210)}
+  .member h3{font-size:20px;margin:18px 0 2px}
+  .member p{color:var(--muted);font-size:14px;margin-bottom:20px}
+  /* reviews */
+  .reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+  .review{background:var(--card);border-left:3px solid var(--gold);padding:26px;border-radius:4px}
+  .review .stars{color:var(--gold);letter-spacing:3px;margin-bottom:10px}
+  .review p{color:var(--muted);margin-bottom:14px}
+  .review b{font-size:14px}
+  /* booking */
+  .book{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  .info p{color:var(--muted);margin-bottom:18px}
+  .info .row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .info .row b{color:var(--gold);min-width:90px;font-weight:500}
+  form{background:var(--card);border:1px solid var(--line);padding:30px;border-radius:6px;display:grid;gap:14px}
+  input,select{width:100%;background:#0f0e0d;border:1px solid var(--line);color:var(--text);padding:13px 14px;border-radius:4px;font:inherit}
+  input:focus,select:focus{outline:none;border-color:var(--gold)}
+  form .btn{border:none;cursor:pointer;font:inherit;font-weight:600}
+  .ok{display:none;color:var(--gold);text-align:center}
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--muted);font-size:13px}
+  .wa{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  @media(max-width:760px){
+    .links{display:none}.pole{display:none}
+    .book{grid-template-columns:1fr}
+    .stats{grid-template-columns:1fr}.stats div+div{border-left:none;border-top:1px solid var(--line)}
+    section{padding:70px 0}
+  }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#" class="logo">USTAD<span>.</span>BARBER</a>
+  <div class="links"><a href="#xidmetler">Xidmətlər</a><a href="#ustalar">Ustalar</a><a href="#reyler">Rəylər</a><a href="#elaqe">Əlaqə</a></div>
+  <a href="#elaqe" class="btn">Növbə al</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="tag">Bakı · 2019-dan bəri</div>
+  <h1>Kəsim deyil,<br><em>xarakter.</em></h1>
+  <p>Klassik kişi saç kəsimi, saqqal dizaynı və isti dəsmal ilə üz qulluğu. Növbəsiz gözləmə yoxdur — onlayn yaz, vaxtında gəl.</p>
+  <div class="cta"><a href="#elaqe" class="btn">Onlayn növbə al</a><a href="#xidmetler" class="btn ghost">Qiymətlərə bax</a></div>
+  <div class="pole"></div>
+</div></header>
+
+<div class="wrap stats">
+  <div><b>5000+</b><span>razı müştəri</span></div>
+  <div><b>4</b><span>təcrübəli usta</span></div>
+  <div><b>4.9★</b><span>orta reytinq</span></div>
+</div>
+
+<section id="xidmetler"><div class="wrap">
+  <div class="head"><small>Qiymətlər</small><h2>Xidmətlər</h2></div>
+  <div class="prices">
+    <div class="price"><div><h3>Saç kəsimi</h3><p>Yuma, kəsim, üslub</p></div><b>15 ₼</b></div>
+    <div class="price"><div><h3>Saqqal dizaynı</h3><p>Forma, ülgüc, yağ</p></div><b>10 ₼</b></div>
+    <div class="price"><div><h3>Kəsim + saqqal</h3><p>Ən çox seçilən paket</p></div><b>22 ₼</b></div>
+    <div class="price"><div><h3>İsti dəsmal ilə qırxım</h3><p>Klassik ülgüc qırxımı</p></div><b>12 ₼</b></div>
+    <div class="price"><div><h3>Uşaq kəsimi</h3><p>12 yaşa qədər</p></div><b>10 ₼</b></div>
+    <div class="price"><div><h3>Bəy paketi</h3><p>Toy günü üçün tam qulluq</p></div><b>50 ₼</b></div>
+  </div>
+</div></section>
+
+<section id="ustalar" style="background:#13110f"><div class="wrap">
+  <div class="head"><small>Komanda</small><h2>Ustalarımız</h2></div>
+  <div class="team">
+    <div class="member"><div class="avatar">R</div><h3>Rauf</h3><p>Baş usta · 12 il təcrübə</p></div>
+    <div class="member"><div class="avatar">E</div><h3>Elvin</h3><p>Fade mütəxəssisi · 7 il</p></div>
+    <div class="member"><div class="avatar">T</div><h3>Tural</h3><p>Saqqal ustası · 6 il</p></div>
+    <div class="member"><div class="avatar">N</div><h3>Nicat</h3><p>Klassik kəsimlər · 5 il</p></div>
+  </div>
+</div></section>
+
+<section id="reyler"><div class="wrap">
+  <div class="head"><small>Müştərilər deyir</small><h2>Rəylər</h2></div>
+  <div class="reviews">
+    <div class="review"><div class="stars">★★★★★</div><p>Rəy nümunəsi — burada müştərinin real rəyi olacaq.</p><b>Müştəri adı</b></div>
+    <div class="review"><div class="stars">★★★★★</div><p>Rəy nümunəsi — burada müştərinin real rəyi olacaq.</p><b>Müştəri adı</b></div>
+    <div class="review"><div class="stars">★★★★★</div><p>Rəy nümunəsi — burada müştərinin real rəyi olacaq.</p><b>Müştəri adı</b></div>
+  </div>
+</div></section>
+
+<section id="elaqe" style="background:#13110f"><div class="wrap book">
+  <div class="info">
+    <div class="head" style="text-align:left;margin-bottom:24px"><small>Əlaqə</small><h2>Növbə al</h2></div>
+    <p>Formu doldur, 15 dəqiqə ərzində zəng edib təsdiqləyək. Ya da birbaşa WhatsApp-a yaz.</p>
+    <div class="row"><b>Ünvan</b><span>Nəsimi r., Bakı (nümunə)</span></div>
+    <div class="row"><b>Telefon</b><span>+994 50 000 00 00</span></div>
+    <div class="row"><b>İş saatı</b><span>Hər gün 10:00 – 21:00</span></div>
+  </div>
+  <form onsubmit="event.preventDefault();this.querySelector('.ok').style.display='block';this.reset()">
+    <input required placeholder="Adınız">
+    <input required type="tel" placeholder="Telefon nömrəniz">
+    <select required><option value="">Xidmət seçin</option><option>Saç kəsimi</option><option>Saqqal dizaynı</option><option>Kəsim + saqqal</option><option>Bəy paketi</option></select>
+    <input required type="date">
+    <button class="btn">Növbəni göndər</button>
+    <div class="ok">Təşəkkürlər! Tezliklə sizə zəng edəcəyik.</div>
+  </form>
+</div></section>
+
+<footer>© 2026 Ustad Barber · Nümunə sayt</footer>
+
+<a class="wa" href="#elaqe" aria-label="WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+</a>
+</body>
+</html>
