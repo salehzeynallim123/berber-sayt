@@ -314,8 +314,8 @@ function onScroll(){
   shint.hidden=!(document.body.classList.contains('inside')&&p<.02);
 }
 addEventListener('scroll',onScroll,{passive:true});
-let running=false,tt=0;
-function loop(){if(!running)return;tt+=.016;camX+=(targetX-camX)*.08;
+let running=false,tt=0,last=performance.now();
+function loop(){if(!running)return;const now=performance.now(),dt=Math.min((now-last)/1000,.1);last=now;tt+=dt;camX+=(targetX-camX)*Math.min(1,dt*6);
   cam.position.set(camX+Math.sin(tt*.4)*.08,1.9+Math.sin(tt*.6)*.03,7.6);cam.lookAt(camX,1.5,-1.5);
   renderer.render(scene,cam);requestAnimationFrame(loop);}
 
@@ -327,7 +327,7 @@ function enter(){
   const dur=reduce?0:1200;
   stage.style.transition=`transform ${dur}ms cubic-bezier(.7,0,.3,1)`;
   stage.style.transform='scale(6)';
-  running=true;loop();
+  running=true;last=performance.now();loop();
   setTimeout(()=>{inside.style.opacity=1;hero.style.opacity=0;
     setTimeout(()=>{hero.style.visibility='hidden';document.body.classList.add('inside');scrollTo(0,0);back.hidden=false;onScroll();},400);
   },reduce?0:Math.max(dur-150,0));
