@@ -55,6 +55,13 @@
   .room-title h2{font-size:clamp(46px,7vw,92px);font-weight:800;font-stretch:75%;line-height:.92;margin-bottom:12px}
   .room-title p{font-size:18px;line-height:1.45}
   .room-title .pill{margin-top:18px;text-shadow:none}
+.flare{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0;mix-blend-mode:screen;background:radial-gradient(circle at var(--fx,50%) var(--fy,45%),rgba(255,214,150,.95),rgba(255,160,80,.35) 25%,transparent 60%)}
+  .bars{position:fixed;left:0;right:0;height:0;background:#000;z-index:2;pointer-events:none}
+  .bars.t{top:0}.bars.b{bottom:0}
+  .room-title h2 .l{display:inline-block;opacity:0;transform:translateY(.4em) rotate(4deg);transition:opacity .5s,transform .7s cubic-bezier(.2,.8,.2,1)}
+  .room-title.on h2 .l{opacity:1;transform:none}
+  .room-title p,.room-title .pill{opacity:0;transform:translateY(10px);transition:opacity .6s .25s,transform .6s .25s}
+  .room-title.on p,.room-title.on .pill{opacity:1;transform:none}
   .progress{position:fixed;left:0;bottom:0;height:3px;background:var(--ember);width:0;z-index:4}
   .back{position:fixed;top:20px;left:20px;z-index:4;background:rgba(16,12,24,.55);backdrop-filter:blur(8px);color:var(--cream);border:1.5px solid rgba(255,243,226,.35);padding:10px 16px;border-radius:24px;font-size:15px}
   .back:hover{border-color:var(--cream)}
@@ -101,6 +108,7 @@
 </section>
 <div id="spacer" aria-hidden="true"></div>
 <button class="back" id="back" hidden>← Dənizə qayıt</button>
+<div class="flare" id="flare"></div><div class="bars t" id="bt"></div><div class="bars b" id="bb"></div>
 <div class="progress" id="prog"></div>
 <div class="scrollhint" id="shint" hidden>Aşağı sürüşdürün, otaqları gəzin</div>
 
@@ -139,21 +147,52 @@ addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/inner
 const N=scenes.length;
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 function setScene(el,scale,op,ox,oy){el.style.transformOrigin=ox+'% '+oy+'%';el.style.transform=`scale(${scale})`;el.style.opacity=op;}
-function onScroll(){
-  if(!document.body.classList.contains('inside'))return;
-  const max=document.documentElement.scrollHeight-innerHeight;const p=max>0?Math.min(scrollY/max,1):0;
+/* başlıq hərflərini ayır */
+titles.forEach(t=>{const h=t.querySelector('h2');h.innerHTML=[...h.textContent].map((c,i)=>c===' '?' ':`<span class="l" style="transition-delay:${i*35}ms">${c}</span>`).join('');});
+const flare=$('#flare'),bt=$('#bt'),bb=$('#bb');
+let target=0,cur=0,imx=0,imy=0,icx=0,icy=0,drift=0,last=performance.now();
+addEventListener('pointermove',e=>{imx=e.clientX/innerWidth-.5;imy=e.clientY/innerHeight-.5;});
+function readScroll(){const max=document.documentElement.scrollHeight-innerHeight;target=max>0?Math.min(scrollY/max,1):0;}
+addEventListener('scroll',readScroll,{passive:true});
+function render(p){
   prog.style.width=(p*100)+'%';
   const u=p*(N-1+.3);const i=Math.min(Math.floor(u),N-1),t=u-i;
-  scenes.forEach((s,j)=>{if(j!==i&&j!==i+1)s.style.opacity=0;});
-  let hold=-1;const a=scenes[i],ax=+a.dataset.ox,ay=+a.dataset.oy;
-  if(i>=N-1||t<.3){setScene(a,1.04+(i>=N-1?0:t*.05),1,ax,ay);hold=i;if(scenes[i+1])scenes[i+1].style.opacity=0;}
-  else{const k=ease((t-.3)/.7);
-    setScene(a,1.055+k*4.5,1-Math.max(0,(k-.62)/.38),ax,ay);
-    const b=scenes[i+1];setScene(b,1.35-.31*Math.max(0,(k-.55)/.45),Math.max(0,(k-.6)/.4),+b.dataset.ox,+b.dataset.oy);}
+  scenes.forEach((s,j)=>{if(j!==i&&j!==i+1){s.style.opacity=0;}});
+  const px=-icx*18,py=-icy*12; let hold=-1,fl=0,bars=0;
+  const a=scenes[i],ax=+a.dataset.ox,ay=+a.dataset.oy;
+  const breathe=1.04+Math.sin(drift*.25)*.008;
+  if(i>=N-1||t<.3){ // dayanma: yavaş nəfəs alan kamera + siçanla dərinlik
+    const sc=breathe+(i>=N-1?0:t*.12);
+    a.style.transformOrigin=ax+'% '+ay+'%';a.style.transform=`translate(${px}px,${py}px) scale(${sc})`;a.style.opacity=1;a.style.filter='none';
+    hold=i;if(scenes[i+1])scenes[i+1].style.opacity=0;
+  }else{
+    const k=ease((t-.3)/.7);
+    // irəli uçuş: getdikcə sürətlənir, bulanıqlaşır və işıqlanır
+    const sc=breathe+.036+Math.pow(k,1.6)*6;
+    a.style.transformOrigin=ax+'% '+ay+'%';
+    a.style.transform=`translate(${px*(1-k)}px,${py*(1-k)}px) scale(${sc})`;
+    a.style.filter=`blur(${Math.max(0,k-.35)*14}px) brightness(${1+Math.max(0,k-.45)*1.4})`;
+    a.style.opacity=1-Math.max(0,(k-.58)/.3);
+    // növbəti otaq: dumandan, yüngül fırlanma ilə gəlir
+    const b=scenes[i+1],m=Math.max(0,(k-.5)/.5),me=1-Math.pow(1-m,3);
+    b.style.transformOrigin=b.dataset.ox+'% '+b.dataset.oy+'%';
+    b.style.transform=`translate(${px*me}px,${py*me}px) scale(${1.6-.56*me}) rotate(${(1-me)*-1.5}deg)`;
+    b.style.filter=`blur(${(1-me)*12}px) brightness(${1+(1-me)*.8})`;
+    b.style.opacity=Math.min(1,m*1.6);
+    fl=Math.sin(Math.min(1,Math.max(0,(k-.35)/.5))*Math.PI); // ortada parlayan işıq
+    bars=Math.sin(k*Math.PI);
+    flare.style.setProperty('--fx',ax+'%');flare.style.setProperty('--fy',ay+'%');
+  }
+  flare.style.opacity=fl*.85;
+  const bh=(bars*7)+'vh';bt.style.height=bh;bb.style.height=bh; // kino zolaqları
   titles.forEach((el,j)=>el.classList.toggle('on',j===hold));
   shint.style.opacity=p<.02?.8:0;
 }
-addEventListener('scroll',onScroll,{passive:true});
+function onScroll(){readScroll();cur=target;render(cur);}
+(function tick(){const now=performance.now(),dt=Math.min((now-last)/1000,.1);last=now;
+  if(document.body.classList.contains('inside')){drift+=dt;icx+=(imx-icx)*Math.min(1,dt*3);icy+=(imy-icy)*Math.min(1,dt*3);
+    cur+=(target-cur)*(reduce?1:Math.min(1,dt*4.5)); render(cur);}
+  requestAnimationFrame(tick);})();
 function enter(){
   const r=hot.getBoundingClientRect();
   zoom.style.transformOrigin=`${r.left+r.width/2}px ${r.top+r.height/2}px`;
@@ -164,11 +203,11 @@ function enter(){
   setTimeout(()=>{
     inside.style.opacity=1;hero.style.opacity=0;
     scenes[0].style.transition='transform 1.1s cubic-bezier(.2,.8,.2,1), opacity .5s';setScene(scenes[0],1.04,1,50.4,48);
-    setTimeout(()=>{heroOn=false;hero.style.visibility='hidden';scenes[0].style.transition='';document.body.classList.add('inside');scrollTo(0,0);back.hidden=false;shint.hidden=false;onScroll();},reduce?0:900);
+    setTimeout(()=>{heroOn=false;hero.style.visibility='hidden';scenes[0].style.transition='';document.body.classList.add('inside');scrollTo(0,0);target=cur=0;back.hidden=false;shint.hidden=false;onScroll();},reduce?0:900);
   },reduce?0:dur-250);
 }
 function leave(){
-  document.body.classList.remove('inside');titles.forEach(t=>t.classList.remove('on'));back.hidden=true;shint.hidden=true;prog.style.width=0;
+  document.body.classList.remove('inside');titles.forEach(t=>t.classList.remove('on'));back.hidden=true;flare.style.opacity=0;bt.style.height=bb.style.height=0;shint.hidden=true;prog.style.width=0;
   hero.style.visibility='visible';heroOn=true;
   requestAnimationFrame(()=>{hero.style.opacity=1;inside.style.opacity=0;zoom.style.transform='scale(1)';zoom.style.filter='none';});
   setTimeout(()=>{hotlabel.style.opacity=1;scenes.forEach(s=>s.style.opacity=0);},reduce?0:1250);
