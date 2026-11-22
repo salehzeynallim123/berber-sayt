@@ -96,15 +96,17 @@
 
 <section id="inside" aria-label="Otel içəridən">
   <div class="scene" id="s0" data-ox="50.4" data-oy="48"><img src="img/lobbi.jpg" alt="Lobbi: daş tağlar, Şirvan xalçası, samovar"><div class="shade"></div></div>
-  <div class="scene" id="s1" data-ox="55" data-oy="80"><img src="img/sema.jpg" alt="Dam terrasından Alov Qüllələrinə mənzərə"><div class="shade"></div></div>
+  <div class="scene" id="s1" data-ox="50.5" data-oy="31"><img src="img/otaq.jpg" alt="Qız Qalasına baxan yataq otağı"><div class="shade"></div></div>
+  <div class="scene" id="s2" data-ox="55" data-oy="80"><img src="img/sema.jpg" alt="Dam terrasından Alov Qüllələrinə mənzərə"><div class="shade"></div></div>
 </section>
 <div id="spacer" aria-hidden="true"></div>
 <button class="back" id="back" hidden>← Dənizə qayıt</button>
 <div class="progress" id="prog"></div>
-<div class="scrollhint" id="shint" hidden>Aşağı sürüşdürün, qapıdan keçin</div>
+<div class="scrollhint" id="shint" hidden>Aşağı sürüşdürün, otaqları gəzin</div>
 
 <div class="room-title" id="t0"><h2>Lobbi</h2><p>XIX əsr tacir evi. Daş tağlar, köhnə Şirvan xalçası və hər axşam samovarda təzə çay.</p></div>
-<div class="room-title" id="t1"><h2>Dam terrası</h2><p>Axşam fənərləri yananda Alov Qüllələrinə baxan terrasda şam yeməyi. Otaqlar gecəsi 140 ₼-dan.</p><button class="pill" data-book>Otaq rezerv et</button></div>
+<div class="room-title" id="t1"><h2>Qala otağı</h2><p>Pəncərədən birbaşa Qız Qalası görünür. Böyük çarpayı, daş divarlar, səhər yeməyi qiymətə daxildir. Gecəsi 140 ₼-dan.</p></div>
+<div class="room-title" id="t2"><h2>Dam terrası</h2><p>Axşam fənərləri yananda Alov Qüllələrinə baxan terrasda şam yeməyi. Axşamlar canlı muğam.</p><button class="pill" data-book>Otaq rezerv et</button></div>
 
 <dialog id="book">
   <button class="x" data-close aria-label="Bağla">×</button>
@@ -125,7 +127,7 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $=s=>document.querySelector(s);
 const hero=$('#hero'),zoom=$('#zoom'),stage=$('#stage'),hot=$('#hot'),hotlabel=$('#hotlabel'),inside=$('#inside');
 const back=$('#back'),prog=$('#prog'),shint=$('#shint'),spacer=$('#spacer');
-const scenes=[$('#s0'),$('#s1')],titles=[$('#t0'),$('#t1')];
+const scenes=[$('#s0'),$('#s1'),$('#s2')],titles=[$('#t0'),$('#t1'),$('#t2')];
 const words=document.querySelectorAll('.word');
 function fit(){const W=stage.offsetWidth;const fs=Math.min(W*.25,innerWidth*.42);words.forEach(w=>w.style.fontSize=fs+'px');spacer.style.height=(scenes.length*150+100)+'vh';}
 addEventListener('resize',fit);fit();
