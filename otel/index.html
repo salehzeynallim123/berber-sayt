@@ -102,9 +102,11 @@
 </section>
 
 <section id="inside" aria-label="Otel içəridən">
-  <div class="scene" id="s0" data-ox="50.4" data-oy="48"><img src="img/lobbi.jpg" alt="Lobbi: daş tağlar, Şirvan xalçası, samovar"><div class="shade"></div></div>
-  <div class="scene" id="s1" data-ox="50.5" data-oy="31"><img src="img/otaq.jpg" alt="Qız Qalasına baxan yataq otağı"><div class="shade"></div></div>
-  <div class="scene" id="s2" data-ox="55" data-oy="80"><img src="img/sema.jpg" alt="Dam terrasından Alov Qüllələrinə mənzərə"><div class="shade"></div></div>
+  <canvas id="gl" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1"></canvas>
+  <div id="shadeAll" style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(10,7,14,.72),transparent 45%)"></div>
+  <div class="scene" id="s0" data-ox="50.4" data-oy="48" data-d="img/lobbi_d.jpg"><img src="img/lobbi.jpg" alt="Lobbi: daş tağlar, Şirvan xalçası, samovar"><div class="shade"></div></div>
+  <div class="scene" id="s1" data-ox="50.5" data-oy="31" data-d="img/otaq_d.jpg"><img src="img/otaq.jpg" alt="Qız Qalasına baxan yataq otağı"><div class="shade"></div></div>
+  <div class="scene" id="s2" data-ox="55" data-oy="80" data-d="img/sema_d.jpg"><img src="img/sema.jpg" alt="Dam terrasından Alov Qüllələrinə mənzərə"><div class="shade"></div></div>
 </section>
 <div id="spacer" aria-hidden="true"></div>
 <button class="back" id="back" hidden>← Dənizə qayıt</button>
@@ -154,37 +156,57 @@ let target=0,cur=0,imx=0,imy=0,icx=0,icy=0,drift=0,last=performance.now();
 addEventListener('pointermove',e=>{imx=e.clientX/innerWidth-.5;imy=e.clientY/innerHeight-.5;});
 function readScroll(){const max=document.documentElement.scrollHeight-innerHeight;target=max>0?Math.min(scrollY/max,1):0;}
 addEventListener('scroll',readScroll,{passive:true});
+/* ---------- WebGL: dərinlik xəritəsi ilə 3D kamera ---------- */
+const cv=$('#gl'),gl=cv.getContext('webgl',{premultipliedAlpha:false,antialias:false});
+let GLOK=!!gl;
+const VS=`attribute vec2 p;varying vec2 v;void main(){v=p*.5+.5;v.y=1.-v.y;gl_Position=vec4(p,0,1);}`;
+const FS=`precision highp float;varying vec2 v;uniform sampler2D T,D;uniform vec2 F,M,R;uniform float P,A,B,IA;
+vec2 cover(vec2 u){float va=R.x/R.y;vec2 s=va>IA?vec2(1.,IA/va):vec2(va/IA,1.);return (u-.5)*s/1.12+.5;}
+vec2 src(vec2 u){vec2 f=F;vec2 q=u;float d=.5;for(int i=0;i<4;i++){d=texture2D(D,q).r;float S=1.+P*(.35+d*1.4);q=f+(u-f)/S+M*(d-.45)*.035;}return q;}
+void main(){vec2 u=cover(v);vec3 c=vec3(0.);float w=0.;
+ for(int i=0;i<6;i++){float k=float(i)/5.;vec2 uu=mix(u,F,k*B*.06);vec2 q=src(uu);c+=texture2D(T,clamp(q,.001,.999)).rgb;w+=1.;}
+ c/=w;c*=1.+B*.9;gl_FragColor=vec4(c,A);}`;
+function sh(t,src){const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS)){console.log(gl.getShaderInfoLog(o));GLOK=false;}return o;}
+let prg,U={},texs=[];
+if(GLOK){prg=gl.createProgram();gl.attachShader(prg,sh(gl.VERTEX_SHADER,VS));gl.attachShader(prg,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prg);gl.useProgram(prg);
+ const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+ const pl=gl.getAttribLocation(prg,'p');gl.enableVertexAttribArray(pl);gl.vertexAttribPointer(pl,2,gl.FLOAT,false,0,0);
+ ['T','D','F','M','R','P','A','B','IA'].forEach(n=>U[n]=gl.getUniformLocation(prg,n));
+ gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+ const mk=src=>{const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([20,15,25,255]));
+   ['TEXTURE_MIN_FILTER','TEXTURE_MAG_FILTER'].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,gl[k],gl.LINEAR));['TEXTURE_WRAP_S','TEXTURE_WRAP_T'].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,gl[k],gl.CLAMP_TO_EDGE));
+   const im=new Image();im.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,im);};im.src=src;return t;};
+ texs=scenes.map(sc=>({c:mk(sc.querySelector('img').getAttribute('src')),d:mk(sc.dataset.d),f:[+sc.dataset.ox/100,+sc.dataset.oy/100]}));
+ scenes.forEach(sc=>sc.style.display='none');
+}
+function glSize(){if(!GLOK)return;const r=Math.min(devicePixelRatio,1.75);cv.width=innerWidth*r;cv.height=innerHeight*r;gl.viewport(0,0,cv.width,cv.height);}
+addEventListener('resize',glSize);glSize();
+function draw(j,push,alpha,blur,mx,my){if(alpha<=.001)return;const t=texs[j];
+ gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,t.c);gl.uniform1i(U.T,0);
+ gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,t.d);gl.uniform1i(U.D,1);
+ gl.uniform2f(U.F,t.f[0],t.f[1]);gl.uniform2f(U.M,mx,my);gl.uniform2f(U.R,cv.width,cv.height);
+ gl.uniform1f(U.P,push);gl.uniform1f(U.A,alpha);gl.uniform1f(U.B,blur);gl.uniform1f(U.IA,16/9);
+ gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}
 function render(p){
   prog.style.width=(p*100)+'%';
   const u=p*(N-1+.3);const i=Math.min(Math.floor(u),N-1),t=u-i;
-  scenes.forEach((s,j)=>{if(j!==i&&j!==i+1){s.style.opacity=0;}});
-  const px=-icx*18,py=-icy*12; let hold=-1,fl=0,bars=0;
-  const a=scenes[i],ax=+a.dataset.ox,ay=+a.dataset.oy;
-  const breathe=1.04+Math.sin(drift*.25)*.008;
-  if(i>=N-1||t<.3){ // dayanma: yavaş nəfəs alan kamera + siçanla dərinlik
-    const sc=breathe+(i>=N-1?0:t*.12);
-    a.style.transformOrigin=ax+'% '+ay+'%';a.style.transform=`translate(${px}px,${py}px) scale(${sc})`;a.style.opacity=1;a.style.filter='none';
-    hold=i;if(scenes[i+1])scenes[i+1].style.opacity=0;
+  let hold=-1,fl=0,bars=0;const breathe=Math.sin(drift*.3)*.012;
+  const mx=icx,my=icy;
+  if(GLOK){gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);}
+  if(i>=N-1||t<.3){
+    if(GLOK)draw(i,.02+breathe+(i>=N-1?0:t*.35),1,0,mx,my);hold=i;
   }else{
     const k=ease((t-.3)/.7);
-    // irəli uçuş: getdikcə sürətlənir, bulanıqlaşır və işıqlanır
-    const sc=breathe+.036+Math.pow(k,1.6)*6;
-    a.style.transformOrigin=ax+'% '+ay+'%';
-    a.style.transform=`translate(${px*(1-k)}px,${py*(1-k)}px) scale(${sc})`;
-    a.style.filter=`blur(${Math.max(0,k-.35)*14}px) brightness(${1+Math.max(0,k-.45)*1.4})`;
-    a.style.opacity=1-Math.max(0,(k-.58)/.3);
-    // növbəti otaq: dumandan, yüngül fırlanma ilə gəlir
-    const b=scenes[i+1],m=Math.max(0,(k-.5)/.5),me=1-Math.pow(1-m,3);
-    b.style.transformOrigin=b.dataset.ox+'% '+b.dataset.oy+'%';
-    b.style.transform=`translate(${px*me}px,${py*me}px) scale(${1.6-.56*me}) rotate(${(1-me)*-1.5}deg)`;
-    b.style.filter=`blur(${(1-me)*12}px) brightness(${1+(1-me)*.8})`;
-    b.style.opacity=Math.min(1,m*1.6);
-    fl=Math.sin(Math.min(1,Math.max(0,(k-.35)/.5))*Math.PI); // ortada parlayan işıq
-    bars=Math.sin(k*Math.PI);
-    flare.style.setProperty('--fx',ax+'%');flare.style.setProperty('--fy',ay+'%');
+    const m=Math.max(0,(k-.5)/.5),me=1-Math.pow(1-m,3);
+    if(GLOK){
+      draw(i,.02+.105+Math.pow(k,1.7)*5.5,1-Math.max(0,(k-.58)/.34),Math.min(1,k*1.3),mx*(1-k),my*(1-k));
+      draw(i+1,-.1*(1-me)+.02,Math.min(1,m*1.5),(1-me)*.9,mx*me,my*me);
+    }
+    fl=Math.sin(Math.min(1,Math.max(0,(k-.35)/.5))*Math.PI);bars=Math.sin(k*Math.PI);
+    flare.style.setProperty('--fx',scenes[i].dataset.ox+'%');flare.style.setProperty('--fy',scenes[i].dataset.oy+'%');
   }
-  flare.style.opacity=fl*.85;
-  const bh=(bars*7)+'vh';bt.style.height=bh;bb.style.height=bh; // kino zolaqları
+  flare.style.opacity=fl*.8;
+  const bh=(bars*7)+'vh';bt.style.height=bh;bb.style.height=bh;
   titles.forEach((el,j)=>el.classList.toggle('on',j===hold));
   shint.style.opacity=p<.02?.8:0;
 }
@@ -199,10 +221,10 @@ function enter(){
   hotlabel.style.opacity=0;const dur=reduce?0:1200;
   zoom.style.transition=`transform ${dur}ms cubic-bezier(.7,0,.25,1), filter ${dur}ms`;
   zoom.style.transform='scale(7)';zoom.style.filter='brightness(1.6)';
-  setScene(scenes[0],1.3,0,50.4,48);
+  if(!GLOK)setScene(scenes[0],1.3,0,50.4,48);
   setTimeout(()=>{
     inside.style.opacity=1;hero.style.opacity=0;
-    scenes[0].style.transition='transform 1.1s cubic-bezier(.2,.8,.2,1), opacity .5s';setScene(scenes[0],1.04,1,50.4,48);
+    if(!GLOK){scenes[0].style.transition='transform 1.1s cubic-bezier(.2,.8,.2,1), opacity .5s';setScene(scenes[0],1.04,1,50.4,48);}
     setTimeout(()=>{heroOn=false;hero.style.visibility='hidden';scenes[0].style.transition='';document.body.classList.add('inside');scrollTo(0,0);target=cur=0;back.hidden=false;shint.hidden=false;onScroll();},reduce?0:900);
   },reduce?0:dur-250);
 }
